@@ -1,98 +1,157 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🎅 Secret Santa Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Backend API for Secret Santa application built with NestJS, TypeORM, and PostgreSQL.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 📚 Documentation
 
-## Description
+- **[Setup Guide](./SETUP.md)** - Initial setup and configuration
+- **[API Documentation](./API_DOCUMENTATION.md)** - Complete API reference with examples
+- **[Postman Collection](./Secret_Santa_API.postman_collection.json)** - Import directly to Postman
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🚀 Quick Start
 
-## Project setup
+### Prerequisites
 
+- Node.js (v18+)
+- PostgreSQL database (Railway)
+- npm or yarn
+
+### Installation
+
+**1. Install dependencies:**
 ```bash
-$ npm install
+npm install
 ```
 
-## Compile and run the project
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+**2. Create `.env` file:**
+```env
+DATABASE_URL=postgresql://postgres:WeBuGbzLQmqUjQmMiyHlnXrxyUezUaCd@shortline.proxy.rlwy.net:22612/railway
 ```
 
-## Run tests
+**3. Start the server:**
+```bash
+# Development mode with auto-reload
+npm run start:dev
+
+# Production mode
+npm run start:prod
+```
+
+**4. Test the API:**
+```
+http://localhost:3000
+```
+
+## 🏗️ Project Structure
+
+```
+src/
+├── people/              # People module
+│   ├── entities/        # Person entity
+│   ├── dto/            # Data transfer objects
+│   ├── people.controller.ts
+│   ├── people.service.ts
+│   └── people.module.ts
+├── gif/                # Gifts module
+│   ├── entities/       # Gif entity
+│   ├── dto/           # Data transfer objects
+│   ├── gif.controller.ts
+│   ├── gif.service.ts
+│   └── gif.module.ts
+├── app.module.ts       # Root module
+└── main.ts            # Entry point
+```
+
+## 🔗 API Endpoints
+
+### People
+- `POST /people` - Create person
+- `GET /people` - Get all people with gifts
+- `GET /people/:id` - Get person by ID
+- `PATCH /people/:id` - Update person
+- `DELETE /people/:id` - Delete person
+
+### Gifts
+- `POST /gif` - Create gift
+- `GET /gif` - Get all gifts
+- `GET /gif?peopleId=<uuid>` - Get gifts by person
+- `GET /gif?category=<name>` - Get gifts by category
+- `GET /gif/:id` - Get gift by ID
+- `PATCH /gif/:id` - Update gift
+- `DELETE /gif/:id` - Delete gift
+
+## 🛠️ Technologies
+
+- **NestJS** - Backend framework
+- **TypeORM** - ORM for database operations
+- **PostgreSQL** - Database
+- **TypeScript** - Programming language
+- **Railway** - Database hosting
+
+## 🧪 Testing
 
 ```bash
 # unit tests
-$ npm run test
+npm run test
 
 # e2e tests
-$ npm run test:e2e
+npm run test:e2e
 
 # test coverage
-$ npm run test:cov
+npm run test:cov
 ```
 
-## Deployment
+## 📝 Features
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+- ✅ RESTful API with CRUD operations
+- ✅ PostgreSQL database with TypeORM
+- ✅ Entity relationships (OneToMany/ManyToOne)
+- ✅ Data validation with DTOs
+- ✅ Query filtering by person and category
+- ✅ Optimized queries for performance
+- ✅ Auto-generated UUIDs
+- ✅ Timestamps (createdAt, updatedAt)
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 🗃️ Database Schema
+
+### Tables
+- **people** - Stores person information
+- **gifs** - Stores gift information with foreign key to people
+
+### Relationships
+- One Person can have Many Gifts
+- Each Gift belongs to One Person (optional)
+
+## 📦 Example Usage
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+# Create a person (returns { success: true, data: {...} })
+curl -X POST http://localhost:3000/people \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Juan","email":"juan@example.com","enable":true}'
+
+# Create a gift for that person
+curl -X POST http://localhost:3000/gif \
+  -H "Content-Type: application/json" \
+  -d '{"url":"https://giphy.com/gif","title":"Gift","people_id":"<person-uuid>"}'
+
+# Get all gifts for a person
+curl http://localhost:3000/gif?peopleId=<person-uuid>
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## 🔐 Environment Variables
 
-## Resources
+Create a `.env` file:
+```env
+DATABASE_URL=postgresql://user:password@host:port/database
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+## 📖 Resources
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+- [NestJS Documentation](https://docs.nestjs.com)
+- [TypeORM Documentation](https://typeorm.io)
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
 
-## Support
+## 📄 License
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is [MIT licensed](LICENSE).
