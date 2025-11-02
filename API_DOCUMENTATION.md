@@ -2,22 +2,35 @@
 
 ## 🚀 Base URL
 ```
-http://localhost:3000
+http://localhost:3000/api/v1
 ```
 
+## 🔒 Authentication
+
+All endpoints require JWT authentication except:
+- `POST /auth/register`
+- `POST /auth/login`
+
+Include JWT token in Authorization header:
+```
+Authorization: Bearer YOUR_JWT_TOKEN
+```
 
 ## 🏗️ Project Structure
 
 ### Entities & Relationships
 
-#### Person Entity
+#### User Entity (Authentication + Secret Santa)
 ```typescript
 {
   id: string (UUID)
-  name: string
+  username: string
   email: string (unique)
-  notes: string (optional)
-  enable: boolean (optional)
+  password: string (hashed)
+  role: string (user/admin)
+  isActive: boolean
+  notes: string (optional) // Secret Santa notes
+  enable: boolean (optional) // Secret Santa participation
   gifts: Gif[] (OneToMany)
   createdAt: Date
   updatedAt: Date
@@ -32,20 +45,150 @@ http://localhost:3000
   title: string
   description: string (optional)
   category: string (optional)
-  people_id: string (UUID, FK to Person)
-  person: Person (ManyToOne)
+  user_id: string (UUID, FK to User)
+  user: User (ManyToOne)
   createdAt: Date
   updatedAt: Date
 }
 ```
 
-**Relationship:** One Person can have Many Gifts (OneToMany/ManyToOne)
+**Relationships:**
+- One User can have Many Gifts (OneToMany/ManyToOne)
+- Users handle both authentication and Secret Santa participation
 
 ---
 
 ## 📡 API Endpoints
 
-### 👥 People Endpoints
+### 🔐 Authentication Endpoints
+
+#### 1. Register User
+```
+POST /auth/register
+```
+
+**Headers:**
+```json
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+  "username": "johndoe",
+  "email": "john@example.com",
+  "password": "SecurePass123!",
+  "notes": "Likes tech gadgets",
+  "enable": true
+}
+```
+
+**Password Requirements:**
+- Minimum 8 characters
+- Must contain uppercase letter
+- Must contain lowercase letter
+- Must contain number or special character
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "user": {
+      "id": "uuid",
+      "username": "johndoe",
+      "email": "john@example.com",
+      "role": "user",
+      "isActive": true,
+      "notes": "Likes tech gadgets",
+      "enable": true,
+      "createdAt": "2025-11-01T00:00:00.000Z",
+      "updatedAt": "2025-11-01T00:00:00.000Z"
+    },
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  }
+}
+```
+
+---
+
+#### 2. Login
+```
+POST /auth/login
+```
+
+**Headers:**
+```json
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+  "email": "john@example.com",
+  "password": "SecurePass123!"
+}
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "user": {
+      "id": "uuid",
+      "username": "johndoe",
+      "email": "john@example.com",
+      "role": "user",
+      "isActive": true,
+      "createdAt": "2025-11-01T00:00:00.000Z",
+      "updatedAt": "2025-11-01T00:00:00.000Z"
+    },
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  }
+}
+```
+
+**Response (401):**
+```json
+{
+  "statusCode": 401,
+  "message": "Invalid credentials",
+  "error": "Unauthorized"
+}
+```
+
+---
+
+#### 3. Get Profile (Protected)
+```
+GET /auth/profile
+```
+
+**Headers:**
+```json
+Authorization: Bearer YOUR_JWT_TOKEN
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": "uuid",
+    "username": "johndoe",
+    "email": "john@example.com",
+    "role": "user",
+    "isActive": true,
+    "createdAt": "2025-11-01T00:00:00.000Z",
+    "updatedAt": "2025-11-01T00:00:00.000Z"
+  }
+}
+```
+
+---
+
+### 👥 People Endpoints (Protected)
 
 #### 1. Create Person
 ```

@@ -3,5 +3,5 @@ export class CreateGifDto {
   title: string;
   description?: string;
   category?: string;
-  people_id?: string;
+  user_id?: string;
 }

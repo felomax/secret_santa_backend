@@ -13,9 +13,9 @@ export class GifController {
   }
 
   @Get()
-  findAll(@Query('category') category?: string, @Query('peopleId') peopleId?: string) {
-    if (peopleId) {
-      return this.gifService.findByPerson(peopleId);
+  findAll(@Query('category') category?: string, @Query('userId') userId?: string) {
+    if (userId) {
+      return this.gifService.findByUser(userId);
     }
     if (category) {
       return this.gifService.findByCategory(category);

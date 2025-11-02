@@ -18,13 +18,13 @@ export class GifService {
   }
 
   async findAll(): Promise<Gif[]> {
-    return await this.gifRepository.find({ relations: ['person'] });
+    return await this.gifRepository.find({ relations: ['user'] });
   }
 
   async findOne(id: string): Promise<Gif> {
     const gif = await this.gifRepository.findOne({ 
       where: { id },
-      relations: ['person']
+      relations: ['user']
     });
     if (!gif) {
       throw new NotFoundException(`Gif with ID ${id} not found`);
@@ -35,14 +35,14 @@ export class GifService {
   async findByCategory(category: string): Promise<Gif[]> {
     return await this.gifRepository.find({ 
       where: { category },
-      relations: ['person']
+      relations: ['user']
     });
   }
 
-  async findByPerson(peopleId: string): Promise<Gif[]> {
+  async findByUser(userId: string): Promise<Gif[]> {
     return await this.gifRepository
       .createQueryBuilder('gif')
-      .leftJoinAndSelect('gif.person', 'person')
+      .leftJoinAndSelect('gif.user', 'user')
       .select([
         'gif.id',
         'gif.url',
@@ -51,11 +51,11 @@ export class GifService {
         'gif.category',
         'gif.createdAt',
         'gif.updatedAt',
-        'gif.people_id',
-        // 'person.id',
-        // 'person.name'
+        'gif.user_id',
+        'user.id',
+        'user.username'
       ])
-      .where('gif.people_id = :peopleId', { peopleId })
+      .where('gif.user_id = :userId', { userId })
       .getMany();
   }
 

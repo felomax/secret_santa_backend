@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { Person } from '../../people/entities/person.entity';
+import { User } from '../../auth/entities/user.entity';
 
 @Entity('gifs')
 export class Gif {
@@ -24,10 +24,10 @@ export class Gif {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Person, (person) => person.gifts, { nullable: true })
-  @JoinColumn({ name: 'people_id' })
-  person: Person;
+  @ManyToOne(() => User, (user) => user.gifts, { nullable: true })
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 
   @Column({ type: 'uuid', nullable: true })
-  people_id: string;
+  user_id: string;
 }
